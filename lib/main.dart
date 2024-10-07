@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'services/books_api.dart';
 
@@ -11,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Busca de Livros Google',
+      title: 'Busca de Livros OpenLibrary',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -38,18 +40,39 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
       _isLoading = true;
     });
 
-    final data = await _booksApi.fetchBook(_searchController.text);
+    final data = await _booksApi.fetchBook(_searchController.text, limit: 10); // Limita a busca a 10 resultados
     setState(() {
       _bookData = data;
       _isLoading = false;
     });
   }
 
+  String _getCoverUrl(Map<String, dynamic> book) {
+    if (book['cover_i'] != null) {
+      return 'https://covers.openlibrary.org/b/id/${book['cover_i']}-L.jpg';
+    } else if (book['isbn'] != null && (book['isbn'] as List).isNotEmpty) {
+      return 'https://covers.openlibrary.org/b/isbn/${book['isbn'][0]}-L.jpg';
+    }
+    return ''; 
+  }
+
+  String _getValidData(dynamic data) {
+    return data != null ? data.toString() : 'N/A';
+  }
+
+  bool _isValidBook(Map<String, dynamic> book) {
+    return
+      book['title'] != null &&
+      book['author_name'] != null &&
+      book['publisher'] != null &&
+      book['first_publish_year'] != null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Busca de Livros Google'),
+        title: const Text('Busca de Livros OpenLibrary'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -72,44 +95,44 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
             else if (_bookData != null)
               Expanded(
                 child: ListView.builder(
-                  itemCount: _bookData!['items'].length,
+                  itemCount: _bookData!['docs'].length,
                   itemBuilder: (context, index) {
-                    final book = _bookData!['items'][index]['volumeInfo'];
+                    final book = _bookData!['docs'][index];
+
+                    if (!_isValidBook(book)) {
+                      return const SizedBox.shrink();
+                    }
+
+                    final coverUrl = _getCoverUrl(book);
+
                     return Card(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Título: ${book['title'] ?? 'N/A'}', style: const TextStyle(fontWeight: FontWeight.bold)),
-                            Text('Subtítulo: ${book['subtitle'] ?? 'N/A'}'),
-                            Text('Autores: ${(book['authors'] as List?)?.join(', ') ?? 'N/A'}'),
-                            Text('Editora: ${book['publisher'] ?? 'N/A'}'),
-                            Text('Data de publicação: ${book['publishedDate'] ?? 'N/A'}'),
-                            Text('Número de páginas: ${book['pageCount']?.toString() ?? 'N/A'}'),
-                            Text('Categorias: ${(book['categories'] as List?)?.join(', ') ?? 'N/A'}'),
-                            Text('Idioma: ${book['language'] ?? 'N/A'}'),
+                            Text('Título: ${_getValidData(book['title'])}',
+                              style: const TextStyle( fontWeight: FontWeight.bold)),
+                            Text('Autores: ${_getValidData((book['author_name'] as List?)?.join(', '))}'),
+                            Text('Editora: ${_getValidData((book['publisher'] as List?)?.first)}'),
+                            Text('Data de publicação: ${_getValidData(book['first_publish_year'])}'),
+                            Text('Número de páginas: ${_getValidData(book['number_of_pages_median'])}'),
+                            Text('ISBN: ${_getValidData((book['isbn'] as List?)?.first)}'),
                             const SizedBox(height: 10),
-                            Text('Descrição: ${book['description'] ?? 'Sem descrição disponível'}'),
-                            const SizedBox(height: 10),
-                            if (book['imageLinks'] != null && book['imageLinks']['thumbnail'] != null)
-                              Image.network(
-                                book['imageLinks']['thumbnail'],
-                                height: 150,
-                                width: 100,
-                                errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                                  return const Text('Falha ao carregar imagem');
-                                },
-                              ),
-                            const SizedBox(height: 10),
-                            if (book['industryIdentifiers'] != null)
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('ISBN_10: ${book['industryIdentifiers'][0]['identifier'] ?? 'N/A'}'),
-                                  Text('ISBN_13: ${book['industryIdentifiers'].length > 1 ? book['industryIdentifiers'][1]['identifier'] : 'N/A'}'),
-                                ],
-                              ),
+
+                            Image.network(
+                              coverUrl.isNotEmpty ? coverUrl : 'assets/images/placeholder_cover.png',
+                              height: 150,
+                              width: 100,
+                              errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+
+                                return Image.asset(
+                                  'assets/images/placeholder_cover.png',
+                                  height: 150,
+                                  width: 100,
+                                );
+                              },
+                            ),
                           ],
                         ),
                       ),
