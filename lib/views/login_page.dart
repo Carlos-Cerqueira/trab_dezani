@@ -45,8 +45,8 @@ class LoginPage extends StatelessWidget {
                     padding: const EdgeInsets.all(12.0),
                     child: Image.asset(
                       'assets/icons/iconEmail.png',
-                      height: 20,
-                      width: 20,
+                      height: 35,
+                      width: 35,
                     ),
                   ),
                   filled: true,
@@ -81,8 +81,8 @@ class LoginPage extends StatelessWidget {
                     padding: const EdgeInsets.all(12.0),
                     child: Image.asset(
                       'assets/icons/iconSenha.png',
-                      height: 20,
-                      width: 20,
+                      height: 35,
+                      width: 35,
                     ),
                   ),
                   filled: true,
