@@ -21,7 +21,7 @@ class StartPage extends StatelessWidget {
 
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/login');
+                Navigator.pushReplacementNamed(context, '/login');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFE63946),
@@ -43,7 +43,7 @@ class StartPage extends StatelessWidget {
 
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/register');
+                Navigator.pushReplacementNamed(context, '/register');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFE63946),
