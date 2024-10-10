@@ -203,7 +203,7 @@ class RegisterPage extends StatelessWidget {
             const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
-
+                Navigator.pushReplacementNamed(context, '/home');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFE63946),
