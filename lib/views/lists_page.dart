@@ -11,11 +11,15 @@ class ListsPage extends StatelessWidget {
         backgroundColor: Color(0xFFDFF0D8),
         title: Text('Minhas Listas'),
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Text('Lista de Livros Lidos, Quero Ler, etc.'),
+      body: Container(
+        width: double.infinity,
+        color: const Color(0xFFDFF0D8),
+        child: SingleChildScrollView(
+          child: Center(
+            child: Text('Lista de Livros Lidos, Quero Ler, etc.'),
+          ),
+          
         ),
-        
       ),
       bottomNavigationBar: BottomAppBar(
         color: const Color(0xFFEBD8BE),

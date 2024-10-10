@@ -9,24 +9,28 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('RateBooks'),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              decoration: InputDecoration(
-                labelText: 'Procure um livro!',
-                border: OutlineInputBorder(),
+      body: Container(
+        width: double.infinity,
+        color: const Color(0xFFDFF0D8),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  labelText: 'Procure um livro!',
+                  border: OutlineInputBorder(),
+                ),
               ),
             ),
-          ),
-
-          Expanded(
-            child: Center(
-              child: Text('Nada por aqui! Tente pesquisar algum livro.'),
+        
+            Expanded(
+              child: Center(
+                child: Text('Nada por aqui! Tente pesquisar algum livro.'),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         color: const Color(0xFFEBD8BE),
