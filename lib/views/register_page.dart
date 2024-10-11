@@ -12,11 +12,11 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        color: const Color(0xFFDFF0D8),
-        padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Container(
+          width: double.infinity,
+          color: const Color(0xFFDFF0D8),
+          padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
