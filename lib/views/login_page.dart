@@ -95,6 +95,7 @@ class LoginPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/home');
+                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFE63946),
@@ -115,7 +116,7 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/register');
+                Navigator.pushReplacementNamed(context, '/register');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFE63946),
