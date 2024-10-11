@@ -19,6 +19,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       backgroundColor: const Color(0xFFD5E8D4),
       appBar: AppBar(
         backgroundColor: const Color(0xFFD5E8D4),
@@ -29,6 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
       body: SingleChildScrollView(
+        
         child: Container(
           width: double.infinity,
           color: const Color(0xFFDFF0D8),
@@ -65,6 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     controller: nomeController,
                     decoration: InputDecoration(
                       labelText: 'Nome',
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none,
@@ -100,6 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     controller: sobrenomeController,
                     decoration: InputDecoration(
                       labelText: 'Sobrenome',
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none,
@@ -135,6 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     controller: emailController,
                     decoration: InputDecoration(
                       labelText: 'E-mail',
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none,
@@ -171,6 +176,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Senha',
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none,
@@ -207,6 +213,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Confirmar Senha',
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none,
@@ -266,7 +273,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 40,
               ),
               onPressed: () {
-                Navigator.popUntil(context, ModalRoute.withName('/home'));
+                Navigator.pop(context);
               },
             ),
             IconButton(
@@ -296,7 +303,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 40,
               ),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/profile');
+                Navigator.pushNamed(context, '/profile');
               },
             ),
             IconButton(
@@ -306,7 +313,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 40,
               ),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/current'); 
+                Navigator.pushNamed(context, '/current'); 
               },
             ),
           ],

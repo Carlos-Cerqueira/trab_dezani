@@ -53,7 +53,8 @@ class ListsPage extends StatelessWidget {
                 height: 40,
               ),
               onPressed: () {
-                Navigator.popUntil(context, ModalRoute.withName('/home'));
+                //Navigator.popUntil(context, ModalRoute.withName('/home'));
+                Navigator.pop(context);
               },
             ),
             IconButton(
@@ -83,7 +84,7 @@ class ListsPage extends StatelessWidget {
                 height: 40,
               ),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/profile');
+                Navigator.pushNamed(context, '/profile');
               },
             ),
             IconButton(
@@ -93,7 +94,7 @@ class ListsPage extends StatelessWidget {
                 height: 40,
               ),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/current'); 
+                Navigator.pushNamed(context, '/current'); 
               },
             ),
           ],

@@ -227,7 +227,7 @@ class _HomePageState extends State<HomePage> {
                 height: 40,
               ),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/profile');
+                Navigator.pushNamed(context, '/profile');
               },
             ),
             IconButton(
@@ -237,7 +237,7 @@ class _HomePageState extends State<HomePage> {
                 height: 40,
               ),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/current');
+                Navigator.pushNamed(context, '/current');
               },
             ),
           ],

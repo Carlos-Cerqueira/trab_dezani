@@ -154,7 +154,7 @@ class BookPage extends StatelessWidget {
                 height: 40,
               ),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/profile');
+                Navigator.pushNamed(context, '/profile');
               },
             ),
             IconButton(
@@ -164,7 +164,7 @@ class BookPage extends StatelessWidget {
                 height: 40,
               ),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/current'); 
+                Navigator.pushNamed(context, '/current'); 
               },
             ),
           ],
