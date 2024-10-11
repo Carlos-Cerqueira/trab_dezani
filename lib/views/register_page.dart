@@ -41,6 +41,7 @@ class RegisterPage extends StatelessWidget {
                   controller: nomeController,
                   decoration: InputDecoration(
                     labelText: 'Nome',
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
@@ -76,6 +77,7 @@ class RegisterPage extends StatelessWidget {
                   controller: sobrenomeController,
                   decoration: InputDecoration(
                     labelText: 'Sobrenome',
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
@@ -111,6 +113,7 @@ class RegisterPage extends StatelessWidget {
                   controller: emailController,
                   decoration: InputDecoration(
                     labelText: 'E-mail',
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
@@ -147,6 +150,7 @@ class RegisterPage extends StatelessWidget {
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Senha',
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
@@ -183,6 +187,7 @@ class RegisterPage extends StatelessWidget {
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Confirmar Senha',
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
