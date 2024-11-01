@@ -12,12 +12,12 @@ class StartPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
             Image.asset(
               'assets/images/Logo.png',
-              height: 120,
+              height: 100,
+              
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 80),
 
             ElevatedButton(
               onPressed: () {
