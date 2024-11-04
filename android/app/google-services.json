@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "553594413263",
+    "project_id": "app-ratebooks",
+    "storage_bucket": "app-ratebooks.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553594413263:android:4e7e7dd4b5b245473c97ba",
+        "android_client_info": {
+          "package_name": "com.ratebooks.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3PNOIRXsog3HQlWRIrLLm1ahXeodEpOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
