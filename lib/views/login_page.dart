@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -95,9 +96,24 @@ class LoginPage extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/home');
-                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+              onPressed: () async {
+                String email = emailController.text;
+                String password = passwordController.text;
+
+                try {
+                  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                    email: email,
+                    password: password,
+                  );
+
+                  print("Usuário logado com sucesso: ${userCredential.user!.uid}");
+                  Navigator.pushReplacementNamed(context, '/home');
+                } catch (e) {
+                  print("Erro ao fazer login: $e");
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Erro ao fazer login: $e")),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFE63946),

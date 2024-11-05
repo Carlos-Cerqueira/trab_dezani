@@ -1,6 +1,7 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, avoid_print, must_be_immutable, prefer_final_fields, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, avoid_print, non_constant_identifier_names, prefer_final_fields, must_be_immutable, use_key_in_widget_constructors
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trab_dezani/services/auth_services.dart';
 
@@ -70,7 +71,9 @@ class RegisterPage extends StatelessWidget {
                       ),
                     ),
                   ),
+
                   const SizedBox(height: 20),
+
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -106,7 +109,9 @@ class RegisterPage extends StatelessWidget {
                       ),
                     ),
                   ),
+
                   const SizedBox(height: 20),
+
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -140,18 +145,20 @@ class RegisterPage extends StatelessWidget {
                         fillColor: Colors.white,
                         contentPadding: const EdgeInsets.symmetric(vertical: 20),
                       ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Por favor, insira um e-mail';
-                          }
-                          if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                            return 'Insira um e-mail válido';
-                          }
-                          return null;
-                        },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira um e-mail';
+                        }
+                        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                          return 'Insira um e-mail válido';
+                        }
+                        return null;
+                      },
                     ),
                   ),
+                  
                   const SizedBox(height: 20),
+
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -198,6 +205,7 @@ class RegisterPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
+
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -241,6 +249,7 @@ class RegisterPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 30),
+
                   ElevatedButton(
                     onPressed: () {
                       RegisterButton();
@@ -262,6 +271,7 @@ class RegisterPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
+
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/login');
@@ -305,19 +315,31 @@ class RegisterPage extends StatelessWidget {
           email: email,
           senha: senha,
         );
-        print("Usuário registrado com sucesso: ${userCredential.user?.uid}");
-        // Exiba uma mensagem de sucesso ou redirecione para outra página
+
+        String userId = userCredential.user!.uid;
+
+        await FirebaseFirestore.instance.collection('users').doc(userId).set({
+          'nome': nome,
+          'sobrenome': sobrenome,
+          'email': email,
+          'senha': senha,
+          'createdAt': FieldValue.serverTimestamp(),
+        });
+
         ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
           SnackBar(content: Text("Usuário registrado com sucesso!")),
         );
+
+        print("Usuário registrado com sucesso: $userId");
+
       } catch (e) {
-        print("Erro ao registrar usuário: $e");
         ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
           SnackBar(content: Text("Erro ao registrar usuário: $e")),
         );
+
+        print("Erro ao registrar usuário: $e");
       }
     } else {
-      print("Formulário inválido");
       ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
         SnackBar(content: Text("Por favor, preencha todos os campos corretamente")),
       );

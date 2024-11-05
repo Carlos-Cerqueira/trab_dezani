@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, use_super_parameters
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, use_super_parameters, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -16,10 +18,37 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
+  late User? currentUser;
+  late String userId;
+
+  @override
+  void initState() {
+    super.initState();
+    currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      userId = currentUser!.uid;
+      _loadUserData();
+    }
+  }
+
+  Future<void> _loadUserData() async {
+    try {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+      if (userDoc.exists) {
+        var userData = userDoc.data() as Map<String, dynamic>;
+        nomeController.text = userData['nome'] ?? '';
+        sobrenomeController.text = userData['sobrenome'] ?? '';
+        emailController.text = userData['email'] ?? '';
+        passwordController.text = userData['senha'] ?? '';
+      }
+    } catch (e) {
+      print("Erro ao carregar dados do usuário: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       backgroundColor: const Color(0xFFD5E8D4),
       appBar: AppBar(
         backgroundColor: const Color(0xFFD5E8D4),
@@ -61,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 ),
-                child: TextField(
+                child: TextFormField(
                   controller: nomeController,
                   decoration: InputDecoration(
                     labelText: 'Nome',
@@ -97,7 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 ),
-                child: TextField(
+                child: TextFormField(
                   controller: sobrenomeController,
                   decoration: InputDecoration(
                     labelText: 'Sobrenome',
@@ -120,7 +149,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
+
               const SizedBox(height: 20),
+
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -133,7 +164,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 ),
-                child: TextField(
+                child: TextFormField(
                   controller: emailController,
                   decoration: InputDecoration(
                     labelText: 'E-mail',
@@ -154,9 +185,20 @@ class _ProfilePageState extends State<ProfilePage> {
                     fillColor: Colors.white,
                     contentPadding: const EdgeInsets.symmetric(vertical: 20),
                   ),
+                  validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira um e-mail';
+                        }
+                        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                          return 'Insira um e-mail válido';
+                        }
+                        return null;
+                      },
                 ),
               ),
+
               const SizedBox(height: 20),
+
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -169,7 +211,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 ),
-                child: TextField(
+                child: TextFormField(
                   controller: passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
@@ -191,9 +233,20 @@ class _ProfilePageState extends State<ProfilePage> {
                     fillColor: Colors.white,
                     contentPadding: const EdgeInsets.symmetric(vertical: 20),
                   ),
+                  validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira uma senha';
+                        }
+                        if (value.length < 6) {
+                          return 'A senha deve ter pelo menos 6 caracteres';
+                        }
+                        return null;
+                      },
                 ),
               ),
+
               const SizedBox(height: 20),
+
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -206,7 +259,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 ),
-                child: TextField(
+                child: TextFormField(
                   controller: confirmPasswordController,
                   obscureText: true,
                   decoration: InputDecoration(
@@ -228,6 +281,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     fillColor: Colors.white,
                     contentPadding: const EdgeInsets.symmetric(vertical: 20),
                   ),
+                  validator: (value) {
+                    if (value != passwordController.text) {
+                      return 'As senhas não coincidem';
+                    }
+                    return null;
+                  },
                 ),
               ),
               const SizedBox(height: 40),
@@ -310,7 +369,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 40,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/current'); 
+                Navigator.pushNamed(context, '/current');
               },
             ),
           ],
