@@ -150,6 +150,7 @@ class RegisterPage extends StatelessWidget {
           'nome': nome,
           'sobrenome': sobrenome,
           'email': email,
+          'senha': senha,
           'createdAt': FieldValue.serverTimestamp(),
         });
 

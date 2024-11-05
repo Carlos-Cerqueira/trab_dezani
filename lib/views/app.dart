@@ -8,6 +8,7 @@ import 'home_page.dart';
 import 'book_page.dart';
 import 'lists_page.dart';
 import 'profile_page.dart';
+import 'notifications_page.dart';
 
 class RateBooksApp extends StatelessWidget {
   @override
@@ -23,6 +24,7 @@ class RateBooksApp extends StatelessWidget {
         "/book": (context) => BookPage(),
         "/lists": (context) => ListsPage(),
         "/profile": (context) => ProfilePage(),
+        "/notifications": (context) => NotificationsPage(),
       },
       initialRoute: "/splash",
     );
