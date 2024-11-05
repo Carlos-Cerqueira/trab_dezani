@@ -1,7 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'start_page.dart';
+import 'splash_page.dart';
 import 'login_page.dart';
 import 'register_page.dart';
 import 'home_page.dart';
@@ -16,7 +16,7 @@ class RateBooksApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
       routes: {
-        "/start": (context) => StartPage(),
+        "/splash": (context) => SplashPage(),
         "/login": (context) => LoginPage(),
         "/register": (context) => RegisterPage(),
         "/home": (context) => HomePage(),
@@ -24,7 +24,7 @@ class RateBooksApp extends StatelessWidget {
         "/lists": (context) => ListsPage(),
         "/profile": (context) => ProfilePage(),
       },
-      initialRoute: "/start",
+      initialRoute: "/splash",
     );
   }
 }

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'components/textField.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -77,219 +79,49 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
+
               const SizedBox(height: 30),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 4,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: TextFormField(
-                  controller: nomeController,
-                  decoration: InputDecoration(
-                    labelText: 'Nome',
-                    floatingLabelBehavior: FloatingLabelBehavior.never,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Image.asset(
-                        'assets/icons/iconUser.png',
-                        height: 35,
-                        width: 35,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 20),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 4,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: TextFormField(
-                  controller: sobrenomeController,
-                  decoration: InputDecoration(
-                    labelText: 'Sobrenome',
-                    floatingLabelBehavior: FloatingLabelBehavior.never,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Image.asset(
-                        'assets/icons/iconUser.png',
-                        height: 35,
-                        width: 35,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 20),
-                  ),
-                ),
+
+              CustomTextField(
+                controller: nomeController,
+                label: 'Nome',
+                iconPath: 'assets/icons/iconUser.png',
               ),
 
               const SizedBox(height: 20),
 
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 4,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: TextFormField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    labelText: 'E-mail',
-                    floatingLabelBehavior: FloatingLabelBehavior.never,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Image.asset(
-                        'assets/icons/iconEmail.png',
-                        height: 35,
-                        width: 35,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 20),
-                  ),
-                  validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor, insira um e-mail';
-                        }
-                        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                          return 'Insira um e-mail válido';
-                        }
-                        return null;
-                      },
-                ),
+              CustomTextField(
+                controller: sobrenomeController,
+                label: 'Sobrenome',
+                iconPath: 'assets/icons/iconUser.png',
+              ),
+              const SizedBox(height: 20),
+              CustomTextField(
+                controller: emailController,
+                label: 'E-mail',
+                iconPath: 'assets/icons/iconEmail.png',
               ),
 
               const SizedBox(height: 20),
 
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 4,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: TextFormField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Senha',
-                    floatingLabelBehavior: FloatingLabelBehavior.never,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Image.asset(
-                        'assets/icons/iconSenha.png',
-                        height: 35,
-                        width: 35,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 20),
-                  ),
-                  validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor, insira uma senha';
-                        }
-                        if (value.length < 6) {
-                          return 'A senha deve ter pelo menos 6 caracteres';
-                        }
-                        return null;
-                      },
-                ),
+              CustomTextField(
+                controller: passwordController,
+                label: 'Senha',
+                iconPath: 'assets/icons/iconSenha.png',
+                obscureText: true,
               ),
 
               const SizedBox(height: 20),
 
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 4,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: TextFormField(
-                  controller: confirmPasswordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Confirmar Senha',
-                    floatingLabelBehavior: FloatingLabelBehavior.never,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Image.asset(
-                        'assets/icons/iconSenha.png',
-                        height: 35,
-                        width: 35,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 20),
-                  ),
-                  validator: (value) {
-                    if (value != passwordController.text) {
-                      return 'As senhas não coincidem';
-                    }
-                    return null;
-                  },
-                ),
+              CustomTextField(
+                controller: confirmPasswordController,
+                label: 'Confirmar Senha',
+                iconPath: 'assets/icons/iconSenha.png',
+                obscureText: true,
               ),
+
               const SizedBox(height: 40),
+
               Center(
                 child: ElevatedButton(
                   onPressed: () {},
