@@ -21,7 +21,10 @@ class RateBooksApp extends StatelessWidget {
         "/login": (context) => LoginPage(),
         "/register": (context) => RegisterPage(),
         "/home": (context) => HomePage(),
-        "/book": (context) => BookPage(),
+        "/book": (context) {
+          final bookData = ModalRoute.of(context)?.settings.arguments as Map<String, Object>;
+          return BookPage(bookData: bookData);
+        },
         "/lists": (context) => ListsPage(),
         "/profile": (context) => ProfilePage(),
         "/notifications": (context) => NotificationsPage(),

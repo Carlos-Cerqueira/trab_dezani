@@ -11,7 +11,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final BooksApi _booksApi = BooksApi();
+  final BooksApi _booksApi = BooksApi(
+    
+  );
   final TextEditingController _searchController = TextEditingController();
   Map<String, dynamic>? _bookData;
   bool _isLoading = false;
@@ -44,7 +46,7 @@ class _HomePageState extends State<HomePage> {
     } else if (book['isbn'] != null && (book['isbn'] as List).isNotEmpty) {
       return 'https://covers.openlibrary.org/b/isbn/${book['isbn'][0]}-L.jpg';
     }
-    return ''; 
+    return '';
   }
 
   String _getValidData(dynamic data) {
@@ -109,66 +111,102 @@ class _HomePageState extends State<HomePage> {
                     itemCount: _bookData!['docs'].length,
                     itemBuilder: (context, index) {
                       final book = _bookData!['docs'][index];
-        
+
                       if (!_isValidBook(book)) {
                         return const SizedBox.shrink();
                       }
-        
+
                       final coverUrl = _getCoverUrl(book);
-        
-                      return Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image.network(
-                                coverUrl.isNotEmpty
-                                    ? coverUrl
-                                    : 'assets/images/placeholder_cover.png',
-                                height: 150,
-                                width: 100,
-                                errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                                  return Image.asset(
-                                    'assets/images/placeholder_cover.png',
-                                    height: 150,
-                                    width: 100,
-                                  );
-                                },
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Título: ${_getValidData(book['title'])}',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    Text(
-                                      'Autores: ${_getValidData((book['author_name'] as List?)?.join(', '))}',
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    Text(
-                                      'Editora: ${_getValidData((book['publisher'] as List?)?.first)}',
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    Text(
-                                      'Data de publicação: ${_getValidData(book['first_publish_year'])}',
-                                    ),
-                                    Text(
-                                      'Número de páginas: ${_getValidData(book['number_of_pages_median'])}',
-                                    ),
-                                    Text(
-                                      'ISBN: ${_getValidData((book['isbn'] as List?)?.first)}',
-                                    ),
-                                  ],
+
+                      return GestureDetector(
+                        onTap: () {
+                          var books = {
+                            'title': _getValidData(book['title']),
+                            'pages': _getValidData(book['number_of_pages_median']),
+                            'author_name': _getValidData(
+                                (book['author_name'] is List)
+                                    ? (book['author_name'] as List).join(', ')
+                                    : book['author_name']),
+                            'publisher': _getValidData(
+                                (book['publisher'] is List)
+                                    ? (book['publisher'] as List).first
+                                    : book['publisher']),
+                            'first_publish_year':
+                                _getValidData(book['first_publish_year']),
+                            'isbn': _getValidData((book['isbn'] is List)
+                                ? (book['isbn'] as List).first
+                                : book['isbn']),
+                            'coverUrl': coverUrl,
+                            'categorie': (book['categories'] is List &&
+                                    (book['categories'] as List).isNotEmpty)
+                                ? (book['categories'] as List).join(', ')
+                                : 'Categoria não disponível.',
+                            'description': _getValidData(book['description']),
+                          };
+
+                          Navigator.pushNamed(
+                            context,
+                            '/book',
+                            arguments: books,
+                          );
+                        },
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.network(
+                                  coverUrl.isNotEmpty
+                                      ? coverUrl
+                                      : 'assets/images/placeholder_cover.png',
+                                  height: 150,
+                                  width: 100,
+                                  errorBuilder: (BuildContext context,
+                                      Object exception,
+                                      StackTrace? stackTrace) {
+                                    return Image.asset(
+                                      'assets/images/placeholder_cover.png',
+                                      height: 150,
+                                      width: 100,
+                                    );
+                                  },
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Título: ${_getValidData(book['title'])}',
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Text(
+                                        'Autores: ${_getValidData((book['author_name'] as List?)?.join(', '))}',
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Text(
+                                        'Editora: ${_getValidData((book['publisher'] as List?)?.first)}',
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Text(
+                                        'Data de publicação: ${_getValidData(book['first_publish_year'])}',
+                                      ),
+                                      Text(
+                                        'Número de páginas: ${_getValidData(book['number_of_pages_median'])}',
+                                      ),
+                                      Text(
+                                        'ISBN: ${_getValidData((book['isbn'] as List?)?.first)}',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
