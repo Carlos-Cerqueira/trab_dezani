@@ -1,7 +1,6 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, sized_box_for_whitespace
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, sized_box_for_whitespace, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-
 import 'components/bottomNavigationBar.dart';
 
 class ListsPage extends StatelessWidget {
@@ -28,16 +27,16 @@ class ListsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildSectionTitle('Lendo'),
-              _buildBookList(),
+              _buildBookList(context),
               SizedBox(height: 20),
               _buildSectionTitle('Lidos'),
-              _buildBookList(),
+              _buildBookList(context),
               SizedBox(height: 20),
               _buildSectionTitle('Quero Ler'),
-              _buildBookList(),
+              _buildBookList(context),
               SizedBox(height: 20),
               _buildSectionTitle('Avaliados'),
-              _buildBookList(),
+              _buildBookList(context),
             ],
           ),
         ),
@@ -69,41 +68,50 @@ class ListsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBookList() {
+  Widget _buildBookList(BuildContext context) {
     return Container(
       height: 150,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 5,
         itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: Column(
-              children: [
-                Container(
-                  width: 100,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.grey[300],
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/placeholder_cover.png'),
-                      fit: BoxFit.cover,
+          return GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/book',
+                arguments: {'bookId': index}, 
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: Column(
+                children: [
+                  Container(
+                    width: 100,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.grey[300],
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/placeholder_cover.png'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  'O Pequeno Príncipe',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                  SizedBox(height: 5),
+                  Text(
+                    'O Pequeno Príncipe',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },
@@ -111,4 +119,3 @@ class ListsPage extends StatelessWidget {
     );
   }
 }
-
