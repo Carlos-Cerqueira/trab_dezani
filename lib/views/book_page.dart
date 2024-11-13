@@ -38,7 +38,7 @@ class _BookPageState extends State<BookPage> {
     if (snapshot.docs.isNotEmpty) {
       final ratings = snapshot.docs.map((doc) => doc['rating'] as double).toList();
       setState(() {
-        _averageRating = ratings.reduce((a, b) => a + b) / ratings.length;
+        _averageRating = double.parse((ratings.reduce((a, b) => a + b) / ratings.length).toStringAsFixed(1));
         _ratingCount = ratings.length;
       });
     }
@@ -54,11 +54,20 @@ class _BookPageState extends State<BookPage> {
         'rating': _rating,
         'timestamp': FieldValue.serverTimestamp(),
       };
+
       await _firestore
           .collection('books')
           .doc(widget.bookData['isbn'] as String?)
           .collection('reviews')
           .add(reviewData);
+
+      final userAvaliadosCollection = _firestore.collection('users').doc(user.uid).collection('Avaliados');
+      final bookSnapshot = await userAvaliadosCollection.where('isbn', isEqualTo: widget.bookData['isbn']).get();
+
+      if (bookSnapshot.docs.isEmpty) {
+        await userAvaliadosCollection.add(widget.bookData);
+      }
+
       _fetchAverageRating();
       setState(() {
         _commentController.clear();
@@ -69,6 +78,7 @@ class _BookPageState extends State<BookPage> {
 
   Future<void> _addToList(String listName) async {
     final user = _auth.currentUser;
+    print(user);
     if (user != null) {
       final userBooksCollection = _firestore.collection('users').doc(user.uid).collection(listName);
       final bookSnapshot = await userBooksCollection.where('isbn', isEqualTo: widget.bookData['isbn']).get();
@@ -209,16 +219,26 @@ class _BookPageState extends State<BookPage> {
                 direction: Axis.horizontal,
                 allowHalfRating: true,
                 itemCount: 5,
-                itemBuilder: (context, _) => Icon(Icons.star, color: Colors.amber),
-                onRatingUpdate: (rating) => setState(() => _rating = rating),
+                itemBuilder: (context, _) => Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (rating) {
+                  setState(() {
+                    _rating = rating;
+                  });
+                },
               ),
               SizedBox(height: 10),
               TextField(
                 controller: _commentController,
                 decoration: InputDecoration(
-                  hintText: 'Escreva um comentário',
-                  border: OutlineInputBorder(),
+                  hintText: 'Escreva seu comentário',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                 ),
+                maxLines: 3,
               ),
               SizedBox(height: 10),
               ElevatedButton(
@@ -233,34 +253,36 @@ class _BookPageState extends State<BookPage> {
     );
   }
 
-  Widget _buildReview(String username, String review, double rating) {
+  Widget _buildReview(String username, String comment, double rating) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade300),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        padding: EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.account_circle, size: 40, color: Colors.grey[700]),
+          SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(username, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                SizedBox(width: 10),
-                RatingBarIndicator(
-                  rating: rating,
-                  itemBuilder: (context, _) => Icon(Icons.star, color: Colors.amber),
-                  itemCount: 5,
-                  itemSize: 20,
+                Text(
+                  username,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black87),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  '$rating ⭐',
+                  style: TextStyle(fontSize: 14, color: Colors.amber[700]),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  comment,
+                  style: TextStyle(fontSize: 14, color: Colors.black87),
                 ),
               ],
             ),
-            SizedBox(height: 8),
-            Text(review, style: TextStyle(fontSize: 14, color: Colors.grey[700])),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
