@@ -31,10 +31,10 @@ class ListsPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildBookListSection('Lendo'),
-              _buildBookListSection('Lidos'),
-              _buildBookListSection('Quero Ler'),
-              _buildBookListSection('Avaliados'),
+              _buildBookListSection(context, 'Lendo'),
+              _buildBookListSection(context, 'Lidos'),
+              _buildBookListSection(context, 'Quero Ler'),
+              _buildBookListSection(context, 'Avaliados'),
             ],
           ),
         ),
@@ -43,7 +43,7 @@ class ListsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBookListSection(String listName) {
+  Widget _buildBookListSection(BuildContext context, String listName) {
     return StreamBuilder<QuerySnapshot>(
       stream: _getBookListStream(listName),
       builder: (context, snapshot) {
@@ -64,13 +64,6 @@ class ListsPage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final bookData = books[index].data() as Map<String, dynamic>;
                         return GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              '/book',
-                              arguments: {'bookData': bookData},
-                            );
-                          },
                           child: Padding(
                             padding: const EdgeInsets.only(right: 10.0),
                             child: Column(
@@ -82,7 +75,7 @@ class ListsPage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(8),
                                     color: Colors.grey[300],
                                     image: DecorationImage(
-                                      image: NetworkImage(bookData['coverUrl']),
+                                      image: NetworkImage(bookData['coverUrl'] ?? ''),
                                       fit: BoxFit.contain,
                                     ),
                                   ),
@@ -97,7 +90,7 @@ class ListsPage extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black87,
                                     ),
-                                    overflow: TextOverflow.clip
+                                    overflow: TextOverflow.clip,
                                   ),
                                 ),
                               ],

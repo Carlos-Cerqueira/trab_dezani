@@ -63,12 +63,10 @@ class _ProfilePageState extends State<ProfilePage> {
         'senha': passwordController.text,
       });
 
-      // Atualizar o email no Firebase Authentication, se foi alterado
       if (currentUser != null && currentUser!.email != emailController.text) {
         await currentUser!.verifyBeforeUpdateEmail(emailController.text);
       }
 
-      // Atualizar a senha no Firebase Authentication, se foi alterada
       if (passwordController.text.isNotEmpty) {
         await currentUser!.updatePassword(passwordController.text);
       }
