@@ -12,6 +12,7 @@ class ListsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFDFF0D8),
       appBar: AppBar(
         backgroundColor: const Color(0xFFDFF0D8),
         title: Row(

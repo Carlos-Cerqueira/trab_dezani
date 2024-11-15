@@ -22,7 +22,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
               height: 40,
             ),
             onPressed: () {
-              Navigator.popUntil(context, ModalRoute.withName('/home'));
+              Navigator.pop(context);
             },
           ),
           IconButton(
