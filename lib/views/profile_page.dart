@@ -86,9 +86,9 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD5E8D4),
+      backgroundColor: const Color(0xFFF6E3CF),
       appBar: AppBar(
-        backgroundColor: const Color(0xFFD5E8D4),
+        backgroundColor: const Color(0xFFF6E3CF),
         elevation: 0,
         title: Image.asset(
           'assets/images/Logo.png',
@@ -97,78 +97,82 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Container(
         width: double.infinity,
-        color: const Color(0xFFDFF0D8),
+        color: const Color(0xFFF6E3CF),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 30),
               const Center(
                 child: Text(
                   'Edite seu Perfil',
                   style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Color(0XFF3D3737),
                   ),
                 ),
               ),
               const SizedBox(height: 30),
-              CustomTextField(
-                controller: nomeController,
-                label: 'Nome',
-                iconPath: 'assets/icons/iconUser.png',
-              ),
-              const SizedBox(height: 20),
-              CustomTextField(
-                controller: sobrenomeController,
-                label: 'Sobrenome',
-                iconPath: 'assets/icons/iconUser.png',
-              ),
-              const SizedBox(height: 20),
-              CustomTextField(
-                controller: emailController,
-                label: 'E-mail',
-                iconPath: 'assets/icons/iconEmail.png',
-              ),
-              const SizedBox(height: 20),
-              CustomTextField(
-                controller: passwordController,
-                label: 'Senha',
-                iconPath: 'assets/icons/iconSenha.png',
-                obscureText: true,
-              ),
-              const SizedBox(height: 20),
-              CustomTextField(
-                controller: confirmPasswordController,
-                label: 'Confirmar Senha',
-                iconPath: 'assets/icons/iconSenha.png',
-                obscureText: true,
-              ),
-              const SizedBox(height: 40),
-              Center(
-                child: ElevatedButton(
-                  onPressed: _updateUserData,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFE63946),
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+              Expanded(
+                child: ListView(
+                  children: [
+                    CustomTextField(
+                      controller: nomeController,
+                      label: 'Nome',
+                      iconPath: 'assets/icons/iconUser.png',
                     ),
-                  ),
-                  child: const Text(
-                    'Editar Perfil',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                    const SizedBox(height: 20),
+                    CustomTextField(
+                      controller: sobrenomeController,
+                      label: 'Sobrenome',
+                      iconPath: 'assets/icons/iconUser.png',
                     ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                    const SizedBox(height: 20),
+                    CustomTextField(
+                      controller: emailController,
+                      label: 'E-mail',
+                      iconPath: 'assets/icons/iconEmail.png',
+                    ),
+                    const SizedBox(height: 20),
+                    CustomTextField(
+                      controller: passwordController,
+                      label: 'Senha',
+                      iconPath: 'assets/icons/iconSenha.png',
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 20),
+                    CustomTextField(
+                      controller: confirmPasswordController,
+                      label: 'Confirmar Senha',
+                      iconPath: 'assets/icons/iconSenha.png',
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 30),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: _updateUserData,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFE63946),
+                          minimumSize: const Size(double.infinity, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: const Text(
+                          'Editar Perfil',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 8),
             ],
           ),
         ),

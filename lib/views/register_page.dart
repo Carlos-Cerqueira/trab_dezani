@@ -22,108 +22,96 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        color: const Color(0xFFDFF0D8),
-        padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/Logo.png',
-              height: 100,
-            ),
-            const SizedBox(height: 50),
-            Form(
-              key: _formKey,
+      resizeToAvoidBottomInset: true,
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          color: const Color(0xFFDFF0D8),
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CustomTextField(
-                    controller: nomeController,
-                    label: 'Nome',
-                    iconPath: 'assets/icons/iconUser.png',
-                  ),
-                  const SizedBox(height: 20),
-                  CustomTextField(
-                    controller: sobrenomeController,
-                    label: 'Sobrenome',
-                    iconPath: 'assets/icons/iconUser.png',
-                  ),
-                  
-                  const SizedBox(height: 20),
-
-                  CustomTextField(
-                    controller: emailController,
-                    label: 'E-mail',
-                    iconPath: 'assets/icons/iconEmail.png',
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  CustomTextField(
-                    controller: passwordController,
-                    label: 'Senha',
-                    iconPath: 'assets/icons/iconSenha.png',
-                    obscureText: true,
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  CustomTextField(
-                    controller: confirmPasswordController,
-                    label: 'Confirmar Senha',
-                    iconPath: 'assets/icons/iconSenha.png',
-                    obscureText: true,
-                  ),
-
+                  Image.asset('assets/images/Logo.png', height: 80),
                   const SizedBox(height: 30),
-
-                  ElevatedButton(
-                    onPressed: () {
-                      RegisterButton();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFE63946),
-                      minimumSize: const Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: const Text(
-                      'Cadastre-se',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/login');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFE63946),
-                      minimumSize: const Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: const Text(
-                      'Voltar ao Login',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        CustomTextField(
+                          controller: nomeController,
+                          label: 'Nome',
+                          iconPath: 'assets/icons/iconUser.png',
+                        ),
+                        const SizedBox(height: 20),
+                        CustomTextField(
+                          controller: sobrenomeController,
+                          label: 'Sobrenome',
+                          iconPath: 'assets/icons/iconUser.png',
+                        ),
+                        const SizedBox(height: 20),
+                        CustomTextField(
+                          controller: emailController,
+                          label: 'E-mail',
+                          iconPath: 'assets/icons/iconEmail.png',
+                        ),
+                        const SizedBox(height: 20),
+                        CustomTextField(
+                          controller: passwordController,
+                          label: 'Senha',
+                          iconPath: 'assets/icons/iconSenha.png',
+                          obscureText: true,
+                        ),
+                        const SizedBox(height: 20),
+                        CustomTextField(
+                          controller: confirmPasswordController,
+                          label: 'Confirmar Senha',
+                          iconPath: 'assets/icons/iconSenha.png',
+                          obscureText: true,
+                        ),
+                        const SizedBox(height: 30),
+                        ElevatedButton(
+                          onPressed: RegisterButton,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFE63946),
+                            minimumSize: const Size(double.infinity, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: const Text(
+                            'Cadastre-se',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/login');
+                          },
+                          child: Text(
+                            'Voltar ao Login',
+                            style: TextStyle(
+                              color: const Color(0xFF3D3737),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                              decorationColor: const Color(0xFF3D3737),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -159,7 +147,6 @@ class RegisterPage extends StatelessWidget {
         );
 
         Navigator.pushReplacementNamed(_formKey.currentContext!, '/home');
-
       } catch (e) {
         ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
           SnackBar(content: Text("Erro ao registrar usuário: $e")),

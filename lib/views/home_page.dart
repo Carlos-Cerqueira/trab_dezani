@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import '../services/books_api.dart';
-
 import 'components/bottomNavigationBar.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,7 +11,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final BooksApi _booksApi = BooksApi();
-  
   final TextEditingController _searchController = TextEditingController();
   Map<String, dynamic>? _bookData;
   bool _isLoading = false;
@@ -92,7 +90,21 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _searchBook,
-                child: const Text('Buscar'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFE63946),
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text(
+                  'Buscar',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               const SizedBox(height: 16),
               if (_isLoading)

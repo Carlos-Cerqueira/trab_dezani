@@ -21,35 +21,30 @@ class LoginPage extends StatelessWidget {
           children: [
             Image.asset(
               'assets/images/Logo.png',
-              height: 100,
+              height: 80,
             ),
-
-            const SizedBox(height: 50),
-
+            const SizedBox(height: 30),
             CustomTextField(
               controller: emailController,
               label: 'E-mail',
               iconPath: 'assets/icons/iconEmail.png',
             ),
-
             const SizedBox(height: 20),
-            
             CustomTextField(
               controller: passwordController,
               label: 'Senha',
               iconPath: 'assets/icons/iconSenha.png',
               obscureText: true,
             ),
-            
             const SizedBox(height: 30),
-
             ElevatedButton(
               onPressed: () async {
                 String email = emailController.text;
                 String password = passwordController.text;
 
                 try {
-                  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                  UserCredential userCredential =
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
                     email: email,
                     password: password,
                   );
@@ -79,24 +74,19 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
+            const SizedBox(height: 10),
+            TextButton(
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/register');
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFE63946),
-                minimumSize: const Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: const Text(
+              child: Text(
                 'Cadastre-se',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: const Color(0xFF3D3737),
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
+                  decorationColor: const Color(0xFF3D3737),
                 ),
               ),
             ),
