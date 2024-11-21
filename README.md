@@ -1,6 +1,6 @@
 # trab_dezani
 
-A new Flutter project.
+Atenção! Esse projeto foi rebuildado para solucionar questões de compilação, portanto, para acessar alterações anteriores, favor visualizar a branch "main".
 
 ## Getting Started
 
