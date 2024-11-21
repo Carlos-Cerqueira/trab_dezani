@@ -44,65 +44,65 @@ class _BookPageState extends State<BookPage> {
     }
   }
 
-Future<void> _submitReview() async {
-  final user = _auth.currentUser;
-  if (user != null && _commentController.text.isNotEmpty) {
+  Future<void> _submitReview() async {
+    final user = _auth.currentUser;
+    if (user != null && _commentController.text.isNotEmpty) {
 
-    final reviewSnapshot = await _firestore
-        .collection('books')
-        .doc(widget.bookData['isbn'] as String?)
-        .collection('reviews')
-        .where('userId', isEqualTo: user.uid)
-        .get();
-      
-    if (reviewSnapshot.docs.isNotEmpty) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Você já comentou nesse livro."),
-            backgroundColor: Colors.red,
-          ),
-        );
+      final reviewSnapshot = await _firestore
+          .collection('books')
+          .doc(widget.bookData['isbn'] as String?)
+          .collection('reviews')
+          .where('userId', isEqualTo: user.uid)
+          .get();
+        
+      if (reviewSnapshot.docs.isNotEmpty) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Você já comentou nesse livro."),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+        return;
       }
-      return;
+
+      final userDoc = await _firestore.collection('users').doc(user.uid).get();
+      String nomeUsuario;
+      if (userDoc.exists) {
+        nomeUsuario = userDoc.data()?['nome'];
+      } else {
+        nomeUsuario = 'Indisponível';
+      }
+      
+      final reviewData = {
+        'userId': user.uid,
+        'username': nomeUsuario,
+        'comment': _commentController.text,
+        'rating': _rating,
+        'timestamp': FieldValue.serverTimestamp(),
+      };
+
+      await _firestore
+          .collection('books')
+          .doc(widget.bookData['isbn'] as String?)
+          .collection('reviews')
+          .add(reviewData);
+
+      final userAvaliadosCollection = _firestore.collection('users').doc(user.uid).collection('Avaliados');
+      final bookSnapshot = await userAvaliadosCollection.where('isbn', isEqualTo: widget.bookData['isbn']).get();
+
+      if (bookSnapshot.docs.isEmpty) {
+        await userAvaliadosCollection.add(widget.bookData);
+      }
+
+      _fetchAverageRating();
+      setState(() {
+        _commentController.clear();
+        _rating = 0.0;
+      });
     }
-
-    final userDoc = await _firestore.collection('users').doc(user.uid).get();
-    String nomeUsuario;
-    if (userDoc.exists) {
-      nomeUsuario = userDoc.data()?['nome'];
-    } else {
-      nomeUsuario = 'Indisponível';
-    }
-    
-    final reviewData = {
-      'userId': user.uid,
-      'username': nomeUsuario,
-      'comment': _commentController.text,
-      'rating': _rating,
-      'timestamp': FieldValue.serverTimestamp(),
-    };
-
-    await _firestore
-        .collection('books')
-        .doc(widget.bookData['isbn'] as String?)
-        .collection('reviews')
-        .add(reviewData);
-
-    final userAvaliadosCollection = _firestore.collection('users').doc(user.uid).collection('Avaliados');
-    final bookSnapshot = await userAvaliadosCollection.where('isbn', isEqualTo: widget.bookData['isbn']).get();
-
-    if (bookSnapshot.docs.isEmpty) {
-      await userAvaliadosCollection.add(widget.bookData);
-    }
-
-    _fetchAverageRating();
-    setState(() {
-      _commentController.clear();
-      _rating = 0.0;
-    });
   }
-}
 
   Future<void> _addToList(String listName) async {
     final user = _auth.currentUser;
@@ -173,7 +173,7 @@ Future<void> _submitReview() async {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black87),
                   ),
                   Text(
-                    '$_averageRating ' + '⭐' * _averageRating.floor() + ' ($_ratingCount avaliações)',
+                    '$_averageRating ' ' ($_ratingCount avaliações)',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black87),
                   ),
                   Text(
@@ -287,8 +287,6 @@ Future<void> _submitReview() async {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.account_circle, size: 40, color: Colors.grey[700]),
-          SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
